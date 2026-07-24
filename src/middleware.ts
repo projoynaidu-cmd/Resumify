@@ -1,0 +1,32 @@
+/**
+ * Next.js middleware — Edge runtime.
+ * Edge-safe: no Prisma, no bcrypt, no Node.js-only modules.
+ */
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { getToken } from 'next-auth/jwt'
+
+const PROTECTED = ['/dashboard', '/builder', '/profile', '/settings', '/billing']
+const AUTH_ONLY = ['/auth/login', '/auth/register']
+
+export async function middleware(req: NextRequest) {
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET })
+  const isLoggedIn = !!token
+  const { pathname } = req.nextUrl
+
+  if (isLoggedIn && AUTH_ONLY.some((r) => pathname.startsWith(r))) {
+    return NextResponse.redirect(new URL('/dashboard', req.url))
+  }
+
+  if (!isLoggedIn && PROTECTED.some((p) => pathname.startsWith(p))) {
+    const url = new URL('/auth/login', req.url)
+    url.searchParams.set('callbackUrl', pathname)
+    return NextResponse.redirect(url)
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)'],
+}

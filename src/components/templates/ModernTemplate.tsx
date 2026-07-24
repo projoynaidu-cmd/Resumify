@@ -1,0 +1,130 @@
+import { memo } from 'react'
+import { useResumeStore } from '@/store'
+import { Avatar, EntryDesc, CustomSectionsRenderer } from './TemplateHelpers'
+
+export const ModernTemplate = memo(function ModernTemplate() {
+  const s = useResumeStore((st) => ({
+    personal: st.personal,
+    about: st.about,
+    skills: st.skills,
+    experience: st.experience,
+    education: st.education,
+    projects: st.projects,
+    customSections: st.customSections,
+    photoDataUrl: st.photoDataUrl,
+  }))
+
+  const { personal: p, photoDataUrl } = s
+  const name = [p.fname, p.lname].filter(Boolean).join(' ')
+
+  return (
+    <>
+      {/* Header */}
+      <div className="r-header">
+        <div className="r-header-left">
+          <Avatar photoDataUrl={photoDataUrl} className="r-avatar" />
+          <div>
+            <div className="r-name">{name}</div>
+            <div className="r-title">{p.title}</div>
+          </div>
+        </div>
+        <div className="r-contact-col">
+          {p.email && <div className="r-contact-item">{p.email}</div>}
+          {p.phone && <div className="r-contact-item">{p.phone}</div>}
+          {p.location && <div className="r-contact-item">{p.location}</div>}
+          {p.website && <div className="r-contact-item">{p.website}</div>}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="r-body">
+        {/* Main column */}
+        <div className="r-main-col">
+          {s.about && (
+            <div className="r-section">
+              <div className="r-section-title">About</div>
+              <div className="r-about">{s.about}</div>
+            </div>
+          )}
+
+          {s.experience.length > 0 && (
+            <div className="r-section">
+              <div className="r-section-title">Experience</div>
+              {s.experience.map((exp) => (
+                <div key={exp.id} className="r-entry">
+                  <div className="r-entry-header">
+                    <span className="r-entry-title">{exp.title}</span>
+                    <span className="r-entry-date">{exp.date}</span>
+                  </div>
+                  <div className="r-entry-sub">{exp.company}</div>
+                  <EntryDesc desc={exp.desc} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {s.education.length > 0 && (
+            <div className="r-section">
+              <div className="r-section-title">Education</div>
+              {s.education.map((edu) => (
+                <div key={edu.id} className="r-entry">
+                  <div className="r-entry-header">
+                    <span className="r-entry-title">{edu.degree}</span>
+                    <span className="r-entry-date">{edu.date}</span>
+                  </div>
+                  <div className="r-entry-sub">{edu.school}</div>
+                  {edu.desc && <div className="r-entry-desc">{edu.desc}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {s.projects.length > 0 && (
+            <div className="r-section">
+              <div className="r-section-title">Projects</div>
+              {s.projects.map((proj) => (
+                <div key={proj.id} className="r-entry">
+                  <div className="r-entry-header">
+                    <span className="r-entry-title">{proj.name}</span>
+                    <span className="r-entry-date">{proj.date}</span>
+                  </div>
+                  {proj.tech && <div className="r-entry-sub">{proj.tech}</div>}
+                  <EntryDesc desc={proj.desc} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <CustomSectionsRenderer
+            sections={s.customSections}
+            sectionCls="r-section"
+            titleCls="r-section-title"
+          />
+        </div>
+
+        {/* Sidebar */}
+        <div>
+          {s.skills.length > 0 && (
+            <div className="r-sidebar-section">
+              <div className="r-sidebar-title">Skills</div>
+              <div>
+                {s.skills.map((skill) => (
+                  <span key={skill} className="r-chip">{skill}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {(p.github || p.twitter) && (
+            <div className="r-sidebar-section">
+              <div className="r-sidebar-title">Links</div>
+              <div className="r-contact-info">
+                {p.github && <div>{p.github}</div>}
+                {p.twitter && <div>{p.twitter}</div>}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  )
+})
