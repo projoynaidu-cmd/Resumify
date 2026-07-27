@@ -1,3 +1,4 @@
+// Components/preview/ResumePreview.tsx
 'use client'
 
 import { memo, useEffect } from 'react'

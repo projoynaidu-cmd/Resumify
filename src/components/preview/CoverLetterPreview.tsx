@@ -1,3 +1,4 @@
+// Components/preview/CoverLetterPreview.tsx
 'use client'
 
 import { memo } from 'react'
