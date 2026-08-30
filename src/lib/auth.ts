@@ -33,6 +33,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        // NOTE: Rate limiting for credential sign-in should be applied here.
+        // The in-memory authRateLimiter from '@/lib/rate-limit' cannot be used
+        // directly in this Edge-safe module, so rate-limit credential login
+        // at the API layer (e.g. via a custom /api/auth/credentials route)
+        // or deploy with a Redis-backed rate limiter for multi-instance support.
         const parsed = loginSchema.safeParse(credentials)
         if (!parsed.success) return null
         const { email, password } = parsed.data

@@ -11,9 +11,9 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const session = await auth()
-  if (!session?.user?.id) return { title: 'Builder — ResumeForge' }
+  if (!session?.user?.id) return { title: 'Builder — Resumify' }
   const resume = await getResumeById(id, session.user.id)
-  return { title: `${resume?.title ?? 'Resume'} — ResumeForge` }
+  return { title: `${resume?.title ?? 'Resume'} — Resumify` }
 }
 
 export default async function BuilderPage({ params }: Props) {
@@ -34,3 +34,4 @@ export default async function BuilderPage({ params }: Props) {
     />
   )
 }
+

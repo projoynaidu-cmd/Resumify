@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signOut } from 'next-auth/react'
 import { z } from 'zod'
 import { Loader2, CheckCircle2, Sparkles, LogOut } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Badge } from '@/components/ui/Badge'
@@ -63,8 +64,13 @@ export function ProfileForm({ user }: ProfileFormProps) {
       <div className="flex items-center gap-4 p-5 bg-[var(--surface)] border border-[var(--border)] rounded-[var(--radius)]">
         <div className="w-14 h-14 rounded-full bg-[var(--accent-bg)] text-[var(--accent)] grid place-items-center flex-shrink-0 overflow-hidden text-xl font-bold">
           {user.image ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={user.image} alt="" className="w-full h-full object-cover" />
+            <Image
+              src={user.image}
+              alt={user.name ?? 'User avatar'}
+              width={56}
+              height={56}
+              className="w-full h-full object-cover"
+            />
           ) : (
             user.name?.charAt(0).toUpperCase() ?? 'U'
           )}

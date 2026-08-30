@@ -4,7 +4,7 @@ import { getAdminStats, getUserGrowthData } from '@/lib/analytics'
 import { AdminDashboard } from '@/components/analytics/AdminDashboard'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Admin — ResumeForge' }
+export const metadata: Metadata = { title: 'Admin — Resumify' }
 
 const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? '')
   .split(',')
@@ -26,3 +26,4 @@ export default async function AdminPage() {
 
   return <AdminDashboard stats={stats} growth={growth} />
 }
+

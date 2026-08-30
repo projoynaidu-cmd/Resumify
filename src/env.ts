@@ -26,7 +26,7 @@ function optionalPublic(key: string, fallback = ''): string {
 
 export const env = {
   /** Application name shown in titles / meta */
-  appName: optionalPublic('NEXT_PUBLIC_APP_NAME', 'ResumeForge'),
+  appName: optionalPublic('NEXT_PUBLIC_APP_NAME', 'Resumify'),
 
   /** Base URL of the deployed app (used for Open Graph, canonical links) */
   appUrl: optionalPublic('NEXT_PUBLIC_APP_URL', 'http://localhost:3000'),
@@ -47,3 +47,4 @@ export const env = {
 
 // Re-export individual values for convenience
 export const { appName, appUrl, isProduction, isDevelopment } = env
+

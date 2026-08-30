@@ -2,7 +2,7 @@
  * Resume JSON export / import.
  *
  * The exported JSON is a versioned envelope containing the full
- * ResumeState so it can be imported back into any ResumeForge
+ * ResumeState so it can be imported back into any Resumify
  * instance (or a future version, with migration).
  */
 
@@ -78,7 +78,7 @@ export async function parseResumeJson(file: File): Promise<ResumeState> {
     !('data' in parsed)
   ) {
     throw new ResumeImportError(
-      'This file was not exported from ResumeForge. Only ResumeForge backup files (.json) can be imported.',
+      'This file was not exported from Resumify. Only Resumify backup files (.json) can be imported.',
     )
   }
 
@@ -86,7 +86,7 @@ export async function parseResumeJson(file: File): Promise<ResumeState> {
 
   if (envelope.version > EXPORT_VERSION) {
     throw new ResumeImportError(
-      `This backup was created with a newer version of ResumeForge (v${envelope.version}). Please update the app.`,
+      `This backup was created with a newer version of Resumify (v${envelope.version}). Please update the app.`,
     )
   }
 
@@ -97,3 +97,4 @@ export async function parseResumeJson(file: File): Promise<ResumeState> {
 
   return state
 }
+

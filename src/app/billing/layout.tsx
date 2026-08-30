@@ -4,7 +4,7 @@ import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
 import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Billing — ResumeForge' }
+export const metadata: Metadata = { title: 'Billing — Resumify' }
 
 export default async function BillingLayout({
   children,
@@ -24,3 +24,4 @@ export default async function BillingLayout({
     </div>
   )
 }
+

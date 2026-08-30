@@ -6,9 +6,25 @@ import bcrypt from 'bcryptjs'
 import { db } from '@/lib/db'
 import { registerSchema } from '@/lib/schemas'
 import { generateSlug } from '@/utils'
+import { authRateLimiter, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req)
+    const limit = authRateLimiter.check(ip)
+
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil((limit.reset - Date.now()) / 1000).toString(),
+          },
+        },
+      )
+    }
+
     const body = await req.json()
     const parsed = registerSchema.safeParse(body)
 

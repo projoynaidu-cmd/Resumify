@@ -3,7 +3,7 @@ export default function Loading() {
     <div
       className="flex h-screen items-center justify-center bg-[var(--bg)]"
       aria-busy="true"
-      aria-label="Loading ResumeForge"
+      aria-label="Loading Resumify"
     >
       <div className="text-center">
         <div
@@ -11,9 +11,10 @@ export default function Loading() {
           style={{ width: '48px', height: '48px' }}
           role="status"
         />
-        <p className="font-serif text-lg font-semibold text-[var(--text)]">ResumeForge</p>
+        <p className="font-serif text-lg font-semibold text-[var(--text)]">Resumify</p>
         <p className="text-sm text-[var(--text3)] mt-1">Loading…</p>
       </div>
     </div>
   )
 }
+

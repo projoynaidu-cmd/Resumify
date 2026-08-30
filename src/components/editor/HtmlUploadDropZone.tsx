@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { Upload } from 'lucide-react'
+import DOMPurify from 'dompurify'
 import { useUIStore } from '@/store'
 import { cn } from '@/utils'
 
@@ -19,7 +20,14 @@ export function HtmlUploadDropZone() {
     reader.onload = (ev) => {
       const content = document.getElementById('resume-content')
       if (content) {
-        content.innerHTML = ev.target?.result as string
+        const clean = DOMPurify.sanitize(ev.target?.result as string, {
+          ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'br', 'p', 'ul', 'ol', 'li',
+                         'h1', 'h2', 'h3', 'h4', 'span', 'div', 'a', 'table',
+                         'tr', 'td', 'th', 'thead', 'tbody', 'img'],
+          ALLOWED_ATTR: ['href', 'class', 'style', 'src', 'alt'],
+          FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'svg', 'math'],
+        })
+        content.innerHTML = clean
         addToast('success', 'HTML resume loaded!')
       }
     }

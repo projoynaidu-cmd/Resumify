@@ -13,7 +13,7 @@ function formatBytes(bytes: number): string {
 }
 
 /**
- * Small footer badge showing localStorage usage for the ResumeForge namespace.
+ * Small footer badge showing localStorage usage for the Resumify namespace.
  * Refreshes every 10 seconds.
  */
 export function StorageInfo() {
@@ -38,7 +38,7 @@ export function StorageInfo() {
         'flex items-center gap-1.5 px-5 py-2 text-[0.7rem]',
         isNearLimit ? 'text-[var(--danger)]' : 'text-[var(--text3)]',
       )}
-      title="LocalStorage used by ResumeForge"
+      title="LocalStorage used by Resumify"
     >
       <Database size={11} aria-hidden />
       <span>{formatBytes(usageBytes)} stored</span>
@@ -58,3 +58,4 @@ export function StorageInfo() {
     </div>
   )
 }
+

@@ -34,7 +34,7 @@ export function PublicResumeViewer({
 
   const shareUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/r/${slug}`
-    : `https://resumeforge.app/r/${slug}`
+    : `https://Resumify.app/r/${slug}`
 
   // Seed store with public resume data
   useEffect(() => {
@@ -93,7 +93,7 @@ export function PublicResumeViewer({
             <span className="bg-[var(--accent)] text-white w-7 h-7 rounded-[6px] grid place-items-center">
               <FileText size={13} />
             </span>
-            <span className="hidden sm:inline font-serif font-bold">ResumeForge</span>
+            <span className="hidden sm:inline font-serif font-bold">Resumify</span>
           </Link>
 
           {/* Title + view count */}
@@ -201,7 +201,7 @@ export function PublicResumeViewer({
         <p className="text-sm text-[var(--text3)] mb-3">
           Built with{' '}
           <Link href="/" className="text-[var(--accent)] font-medium hover:underline">
-            ResumeForge
+            Resumify
           </Link>{' '}
           — free AI resume builder
         </p>
@@ -214,3 +214,4 @@ export function PublicResumeViewer({
     </div>
   )
 }
+

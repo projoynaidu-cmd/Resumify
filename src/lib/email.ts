@@ -1,8 +1,8 @@
 import { Resend } from 'resend'
 
 const RESEND_KEY = process.env.RESEND_API_KEY ?? ''
-const FROM = process.env.EMAIL_FROM ?? 'noreply@resumeforge.app'
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://resumeforge.app'
+const FROM = process.env.EMAIL_FROM ?? 'noreply@Resumify.app'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://Resumify.app'
 
 let _resend: Resend | null = null
 function getResend(): Resend | null {
@@ -13,14 +13,14 @@ function getResend(): Resend | null {
 }
 
 function shell(content: string): string {
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>ResumeForge</title></head>
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>Resumify</title></head>
 <body style="margin:0;padding:0;background:#f4f3ef;font-family:Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 16px;"><tr><td align="center">
 <table width="560" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.08);">
-<tr><td style="background:#2d5a3d;padding:28px 40px;"><span style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#fff;">ResumeForge</span></td></tr>
+<tr><td style="background:#2d5a3d;padding:28px 40px;"><span style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#fff;">Resumify</span></td></tr>
 <tr><td style="padding:36px 40px;">${content}</td></tr>
 <tr><td style="padding:20px 40px 28px;border-top:1px solid #e8e5dd;">
-<p style="margin:0;font-size:12px;color:#9a958e;">© ${new Date().getFullYear()} ResumeForge · <a href="${APP_URL}" style="color:#2d5a3d;text-decoration:none;">resumeforge.app</a></p>
+<p style="margin:0;font-size:12px;color:#9a958e;">© ${new Date().getFullYear()} Resumify · <a href="${APP_URL}" style="color:#2d5a3d;text-decoration:none;">Resumify.app</a></p>
 </td></tr></table></td></tr></table></body></html>`
 }
 
@@ -34,7 +34,7 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
   if (!resend) return
   const firstName = name.split(' ')[0]
   const html = shell(`
-    ${h1(`Welcome to ResumeForge, ${firstName}! 👋`)}
+    ${h1(`Welcome to Resumify, ${firstName}! 👋`)}
     ${p('Your account is ready. Start building a professional, ATS-optimized resume in minutes.')}
     ${p('Here\'s what you can do right now:')}
     <ul style="margin:0 0 20px;padding-left:20px;color:#5a5650;font-size:15px;line-height:2.2;">
@@ -46,9 +46,9 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
     ${btn('Build My Resume', `${APP_URL}/dashboard`)}
   `)
   await resend.emails.send({
-    from: `ResumeForge <${FROM}>`,
+    from: `Resumify <${FROM}>`,
     to,
-    subject: `Welcome to ResumeForge, ${firstName}!`,
+    subject: `Welcome to Resumify, ${firstName}!`,
     html,
   })
 }
@@ -65,9 +65,9 @@ export async function sendPaymentReceiptEmail(
   const renewsOn = periodEnd.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
   const html = shell(`
     ${h1('Payment confirmed ✓')}
-    ${p(`Thanks ${name.split(' ')[0]}! Your ResumeForge Pro subscription is now active.`)}
+    ${p(`Thanks ${name.split(' ')[0]}! Your Resumify Pro subscription is now active.`)}
     <table style="width:100%;border:1px solid #e8e5dd;border-radius:8px;border-collapse:collapse;margin:20px 0;">
-      <tr style="background:#f9f8f5;"><td style="padding:12px 16px;font-size:13px;color:#5a5650;font-weight:600;">Plan</td><td style="padding:12px 16px;font-size:13px;color:#1a1814;font-weight:700;">ResumeForge Pro</td></tr>
+      <tr style="background:#f9f8f5;"><td style="padding:12px 16px;font-size:13px;color:#5a5650;font-weight:600;">Plan</td><td style="padding:12px 16px;font-size:13px;color:#1a1814;font-weight:700;">Resumify Pro</td></tr>
       <tr><td style="padding:12px 16px;font-size:13px;color:#5a5650;font-weight:600;">Amount</td><td style="padding:12px 16px;font-size:13px;color:#1a1814;">${formatted}</td></tr>
       <tr style="background:#f9f8f5;"><td style="padding:12px 16px;font-size:13px;color:#5a5650;font-weight:600;">Next renewal</td><td style="padding:12px 16px;font-size:13px;color:#1a1814;">${renewsOn}</td></tr>
     </table>
@@ -75,9 +75,9 @@ export async function sendPaymentReceiptEmail(
     ${btn('Go to Dashboard', `${APP_URL}/dashboard`)}
   `)
   await resend.emails.send({
-    from: `ResumeForge <${FROM}>`,
+    from: `Resumify <${FROM}>`,
     to,
-    subject: 'Your ResumeForge Pro subscription is active',
+    subject: 'Your Resumify Pro subscription is active',
     html,
   })
 }
@@ -88,15 +88,16 @@ export async function sendCancellationEmail(to: string, name: string, accessUnti
   const until = accessUntil.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
   const html = shell(`
     ${h1('Subscription cancelled')}
-    ${p(`Hi ${name.split(' ')[0]}, we've cancelled your ResumeForge Pro subscription as requested.`)}
+    ${p(`Hi ${name.split(' ')[0]}, we've cancelled your Resumify Pro subscription as requested.`)}
     ${p(`You'll keep access to all Pro features until <strong>${until}</strong>. After that, your account will revert to the Free plan.`)}
     ${p('Your resumes and data are safe — nothing is deleted.')}
     ${btn('Reactivate Pro', `${APP_URL}/billing`)}
   `)
   await resend.emails.send({
-    from: `ResumeForge <${FROM}>`,
+    from: `Resumify <${FROM}>`,
     to,
-    subject: 'Your ResumeForge subscription has been cancelled',
+    subject: 'Your Resumify subscription has been cancelled',
     html,
   })
 }
+

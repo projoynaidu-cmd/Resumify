@@ -4,10 +4,17 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { z } from 'zod'
 
 interface Params {
   params: Promise<{ id: string }>
 }
+
+const updateResumeSchema = z.object({
+  title: z.string().min(1, 'Title is required').max(200, 'Title too long').optional(),
+  data: z.unknown().optional(),
+  isPublic: z.boolean().optional(),
+})
 
 // GET /api/resumes/:id
 export async function GET(_req: Request, { params }: Params) {
@@ -41,6 +48,14 @@ export async function PATCH(req: Request, { params }: Params) {
 
   const { id } = await params
   const body = await req.json().catch(() => ({}))
+  const parsed = updateResumeSchema.safeParse(body)
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Invalid input', issues: parsed.error.flatten().fieldErrors },
+      { status: 400 },
+    )
+  }
 
   const resume = await db.resume.findUnique({ where: { id } })
   if (!resume || resume.userId !== session.user.id) {
@@ -50,9 +65,9 @@ export async function PATCH(req: Request, { params }: Params) {
   const updated = await db.resume.update({
     where: { id },
     data: {
-      ...(body.title !== undefined && { title: body.title }),
-      ...(body.data !== undefined && { data: body.data }),
-      ...(body.isPublic !== undefined && { isPublic: body.isPublic }),
+      ...(parsed.data.title !== undefined && { title: parsed.data.title }),
+      ...(parsed.data.data !== undefined && { data: parsed.data.data as object }),
+      ...(parsed.data.isPublic !== undefined && { isPublic: parsed.data.isPublic }),
     },
     select: { id: true, title: true, slug: true, isPublic: true, updatedAt: true },
   })

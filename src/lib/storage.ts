@@ -8,7 +8,7 @@
  * - Provide typed read/write helpers
  */
 
-const STORAGE_PREFIX = 'resumeforge'
+const STORAGE_PREFIX = 'Resumify'
 const SCHEMA_VERSION = 2
 
 interface StoredEnvelope<T> {
@@ -74,7 +74,7 @@ export function storageRemove(name: string): void {
 }
 
 /**
- * Clear ALL resumeforge keys (used for "reset" functionality).
+ * Clear ALL Resumify keys (used for "reset" functionality).
  */
 export function storageClearAll(): void {
   if (typeof window === 'undefined') return
@@ -114,3 +114,4 @@ export const STORAGE_KEYS = {
   RESUME: 'resume',
   PREFERENCES: 'preferences',
 } as const
+

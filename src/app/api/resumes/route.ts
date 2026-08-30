@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 import { NextResponse } from 'next/server'
+import type { Prisma } from '@prisma/client'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { generateSlug } from '@/utils'
@@ -57,7 +58,7 @@ export async function POST(req: Request) {
       userId: session.user.id,
       title,
       slug: generateSlug(),
-      data: DEFAULT_RESUME_STATE,
+      data: DEFAULT_RESUME_STATE as unknown as Prisma.InputJsonValue,
     },
     select: { id: true, title: true, slug: true, createdAt: true, updatedAt: true },
   })

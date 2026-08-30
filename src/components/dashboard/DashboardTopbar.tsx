@@ -26,7 +26,7 @@ export function DashboardTopbar({ user }: TopbarProps) {
           <span className="bg-[var(--accent)] text-white w-7 h-7 rounded-[6px] grid place-items-center">
             <FileText size={13} />
           </span>
-          <span className="font-serif font-bold">ResumeForge</span>
+          <span className="font-serif font-bold">Resumify</span>
         </Link>
 
         <div className="flex items-center gap-2">
@@ -99,3 +99,4 @@ export function DashboardTopbar({ user }: TopbarProps) {
     </>
   )
 }
+

@@ -12,7 +12,7 @@ const ResumeBuilder = dynamic(() => import('@/components/layout/ResumeBuilder'),
           className="mx-auto mb-4 animate-spin rounded-full border-4 border-[var(--border)] border-t-[var(--accent)]"
           style={{ width: '48px', height: '48px' }}
         />
-        <p className="font-serif text-lg font-semibold text-[var(--text)]">ResumeForge</p>
+        <p className="font-serif text-lg font-semibold text-[var(--text)]">Resumify</p>
         <p className="text-sm text-[var(--text3)]">Loading builder…</p>
       </div>
     </div>
@@ -22,3 +22,4 @@ const ResumeBuilder = dynamic(() => import('@/components/layout/ResumeBuilder'),
 export default function Page() {
   return <ResumeBuilder />
 }
+

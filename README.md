@@ -1,23 +1,26 @@
-# ResumeForge v2
+# Resumify
 
-> A production-ready, open-source resume builder built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Zustand**.
+> A production-ready, open-source SaaS resume builder built with **Next.js 15**, **TypeScript**, **Prisma**, **Stripe**, **Zustand**, **Tailwind CSS**, and **Anthropic Claude AI**.
 
-![ResumeForge](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue?logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06b6d4?logo=tailwindcss)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue?logo=typescript)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 ## Features
 
+### Core Builder
+
 | Feature | Details |
 |---|---|
-| **6 Resume Templates** | Classic, Modern, Minimal, Executive, Creative, Compact |
+| **10 Resume Templates** | Classic, Modern, Minimal, Executive, Creative, Compact, Timeline, Elegant, Technical, Bold |
 | **Live Preview** | Reactive A4-scaled preview, rescales to any viewport |
 | **Theme Switcher** | Light / dark mode, persisted to localStorage |
-| **Font Switcher** | 8 Google Fonts, applied live to the preview |
+| **Font Switcher** | 8 Google Fonts + curated pairings, applied live |
 | **Accent Color Picker** | 8 presets + custom colour input |
+| **Custom Color Palettes** | Save up to 8 full palettes per resume |
 | **ATS Score Checker** | 12-point weighted checklist with animated ring |
 | **Drag & Drop Reordering** | Section-level reorder via @dnd-kit |
 | **Skills Tag Input** | Enter or comma to add, backspace to remove |
@@ -26,24 +29,76 @@
 | **Projects CRUD** | Add / edit / delete with confirmation dialog |
 | **Custom Sections** | Unlimited free-form sections |
 | **Photo Upload** | Client-side square-crop + JPEG compression |
-| **Cover Letter Builder** | AI-drafted template + live preview |
-| **Auto-save** | Versioned localStorage with schema migration |
+| **Cover Letter Builder** | Template + live preview |
 | **Undo / Redo** | 50-step history, Ctrl+Z / Ctrl+Y keyboard shortcuts |
-| **PDF Export** | Multi-page A4, dynamically imported html2canvas+jsPDF |
-| **Print** | Native browser print with print-only CSS |
+| **PDF Export** | Multi-page A4, dynamically imported html2canvas + jsPDF |
+| **DOCX Export** | Word (.docx) via docx library |
 | **Plain-text Export** | Clipboard copy + .txt download for ATS paste |
+| **HTML Upload** | Import existing HTML resumes (sanitized) |
+| **Print** | Native browser print with print-only CSS |
 | **Reset** | Two-step confirmation wipe with toast feedback |
 | **Storage Monitor** | Live localStorage usage badge with overflow warning |
 | **Error Boundary** | Friendly error page with digest ID |
 | **404 Page** | Branded not-found page |
+
+### Authentication & Accounts
+
+| Feature | Details |
+|---|---|
+| **OAuth Sign-in** | Google and GitHub via NextAuth.js v5 |
+| **Email + Password** | Credentials provider with bcrypt (12 rounds) |
+| **Password Strength** | Min 8 chars, uppercase, number, confirmation |
+| **Forgot Password** | (planned) password reset flow |
+| **Profile Management** | Update display name, view plan, sign out |
+| **JWT Sessions** | NextAuth JWT strategy with plan metadata |
+
+### Subscriptions & Billing
+
+| Feature | Details |
+|---|---|
+| **Free Plan** | 3 resumes, 3 templates, 5 AI calls/day |
+| **Pro Plan** | $9/month — Unlimited resumes, all templates, unlimited AI |
+| **Stripe Checkout** | Subscription checkout with promotion code support |
+| **Billing Portal** | Self-service upgrade, cancel, payment method update |
+| **Webhook Handling** | Signed Stripe webhooks for subscription lifecycle |
+
+### AI Features (Claude API)
+
+| Feature | Description |
+|---|---|
+| **AI Summary** | Generate a professional summary paragraph |
+| **AI Bullet Writer** | Rewrite job descriptions into achievement bullets |
+| **AI Cover Letter** | Draft a personalized cover letter body |
+| **ATS Keyword Gap** | Find missing keywords from a job description |
+
+Free plan: 5 AI calls per 24h rolling window. Pro: unlimited.
+
+### Analytics & Tracking
+
+| Feature | Details |
+|---|---|
+| **View Tracking** | Track views on public resumes |
+| **ATS History** | Score snapshots over time |
+| **PostHog Analytics** | Optional product analytics (page views, custom events) |
+| **User Analytics Dashboard** | Views, ATS scores, sparklines per resume |
+| **Admin Dashboard** | Platform stats: total users, Pro conversion, AI usage |
+
+### Public Resume Sharing
+
+| Feature | Details |
+|---|---|
+| **Public Links** | Toggle any resume to public via random slug |
+| **QR Code Sharing** | Generate QR codes for mobile viewing |
+| **View Counter** | Track how many times your public resume is viewed |
 
 ---
 
 ## Quick Start
 
 ```bash
-# 1. Clone / unzip the project
-cd resumeforge
+# 1. Clone the repository
+git clone https://github.com/yourname/Resumify.git
+cd Resumify
 
 # 2. Install dependencies
 npm install
@@ -51,11 +106,43 @@ npm install
 # 3. Copy environment template
 cp .env.local.example .env.local
 
-# 4. Start development server
+# 4. Set up the database (PostgreSQL)
+#    Update DATABASE_URL in .env.local, then:
+npx prisma migrate dev --name init
+
+# 5. Start the development server
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+### Required Environment Variables
+
+These variables must be set in `.env.local` for the app to run locally:
+
+| Variable | Description | How to get |
+|---|---|---|
+| `DATABASE_URL` | PostgreSQL connection string | Local PostgreSQL or Supabase |
+| `AUTH_SECRET` | NextAuth session signing secret | `openssl rand -base64 32` |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials | [Google Cloud Console](https://console.developers.google.com) |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth credentials | [GitHub Developers](https://github.com/settings/developers) |
+| `ANTHROPIC_API_KEY` | Claude API key for AI features | [Anthropic Console](https://console.anthropic.com/settings/keys) |
+
+### Optional Environment Variables
+
+| Variable | Description | Default |
+|---|---|---|
+| `NEXT_PUBLIC_APP_URL` | App base URL | `http://localhost:3000` |
+| `NEXT_PUBLIC_APP_NAME` | App name for display | `Resumify` |
+| `STRIPE_SECRET_KEY` | Stripe secret key | |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret | |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe public key | |
+| `STRIPE_PRO_PRICE_ID` | Stripe Pro plan price ID | |
+| `RESEND_API_KEY` | Transactional email API key | |
+| `EMAIL_FROM` | Default "from" email address | `noreply@Resumify.app` |
+| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project key | (analytics disabled) |
+| `NEXT_PUBLIC_POSTHOG_HOST` | PostHog API host | `https://app.posthog.com` |
+| `ADMIN_EMAILS` | Comma-separated admin emails for `/admin` | |
 
 ---
 
@@ -65,7 +152,7 @@ Open [http://localhost:3000](http://localhost:3000).
 |---|---|
 | `npm run dev` | Development server with Turbopack |
 | `npm run build` | Production build |
-| `npm start` | Serve production build |
+| `npm run start` | Serve production build |
 | `npm run type-check` | TypeScript check without emit |
 | `npm run lint` | ESLint with Next.js rules |
 
@@ -75,169 +162,205 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ```
 src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root HTML shell + font links + metadata
-│   ├── page.tsx            # Entry — dynamic imports ResumeBuilder
-│   ├── globals.css         # Design tokens, template CSS, base resets
-│   ├── loading.tsx         # Route-level loading skeleton
-│   ├── not-found.tsx       # 404 page
-│   └── error.tsx           # Error boundary
+├── app/                          # Next.js App Router
+│   ├── layout.tsx                # Root HTML shell, fonts, metadata
+│   ├── page.tsx                  # Landing page
+│   ├── globals.css               # Design tokens, template CSS, base resets
+│   ├── error.tsx                 # Error boundary
+│   ├── not-found.tsx             # 404 page
+│   ├── loading.tsx               # Route-level loading skeleton
+│   ├── middleware.ts             # Edge-safe route protection (auth)
+│   │
+│   ├── api/                      # RESTful API routes
+│   │   ├── auth/register/route.ts      # User registration
+│   │   ├── profile/route.ts            # Profile updates
+│   │   ├── resumes/route.ts            # List & create resumes
+│   │   ├── resumes/[id]/route.ts       # Get/update/delete resume
+│   │   ├── resumes/[id]/save/route.ts  # Cloud save (debounced)
+│   │   ├── resumes/[id]/duplicate/route.ts
+│   │   ├── resumes/[id]/visibility/route.ts
+│   │   ├── resumes/[id]/view/route.ts  # View tracking
+│   │   ├── stripe/checkout/route.ts    # Create checkout session
+│   │   ├── stripe/webhook/route.ts     # Webhook handler (signed)
+│   │   ├── stripe/portal/route.ts      # Billing portal session
+│   │   ├── ai/summary/route.ts         # AI summary generation
+│   │   ├── ai/bullet/route.ts          # AI bullet improvement
+│   │   ├── ai/cover-letter/route.ts    # AI cover letter
+│   │   ├── ai/ats-keywords/route.ts    # ATS keyword gap analysis
+│   │   ├── ai/usage/route.ts           # AI quota status
+│   │   ├── analytics/ats/route.ts      # ATS score history
+│   │   ├── analytics/resumes/route.ts  # User analytics summary
+│   │   └── admin/stats/route.ts        # Admin platform stats
+│   │
+│   ├── auth/login/page.tsx       # Sign-in page
+│   ├── auth/register/page.tsx    # Registration page
+│   ├── auth/error/page.tsx       # Auth error page
+│   ├── dashboard/page.tsx        # User dashboard (resume list)
+│   ├── dashboard/analytics/page.tsx     # Analytics dashboard
+│   ├── builder/[id]/page.tsx     # Resume builder (authenticated)
+│   ├── billing/page.tsx          # Stripe billing page
+│   ├── profile/page.tsx          # User profile page
+│   ├── admin/page.tsx            # Admin dashboard (email-gated)
+│   ├── r/[slug]/page.tsx         # Public resume viewer
+│   ├── terms/page.tsx            # Terms of Service
+│   └── privacy/page.tsx          # Privacy Policy
 │
-├── components/
-│   ├── layout/             # App shell
-│   │   ├── Providers.tsx       # Theme sync + toast wrapper
-│   │   ├── ResumeBuilder.tsx   # Two-panel layout orchestrator
-│   │   └── Topbar.tsx          # Fixed header with all actions
-│   │
-│   ├── editor/             # Left panel — all input components
-│   │   ├── AtsScorePanel.tsx
-│   │   ├── ColorPicker.tsx
-│   │   ├── CoverLetterEditor.tsx
-│   │   ├── EditorPanel.tsx
-│   │   ├── FilenameInput.tsx
-│   │   ├── FontPicker.tsx
-│   │   ├── HtmlUploadDropZone.tsx
-│   │   ├── PhotoUpload.tsx
-│   │   ├── SortableSectionCard.tsx
-│   │   ├── TemplatePicker.tsx   # Visual grid with SVG thumbnails
-│   │   └── sections/
-│   │       ├── AboutSection.tsx
-│   │       ├── AppearanceSection.tsx
-│   │       ├── CustomSectionsSection.tsx
-│   │       ├── EducationSection.tsx
-│   │       ├── ExperienceSection.tsx
-│   │       ├── PersonalSection.tsx
-│   │       ├── ProjectsSection.tsx
-│   │       └── SkillsSection.tsx
-│   │
-│   ├── preview/            # Right panel — live preview
-│   │   ├── CoverLetterPreview.tsx
-│   │   ├── PreviewPanel.tsx
-│   │   └── ResumePreview.tsx
-│   │
-│   ├── templates/          # 6 resume template components
-│   │   ├── ClassicTemplate.tsx
-│   │   ├── CompactTemplate.tsx
-│   │   ├── CreativeTemplate.tsx
-│   │   ├── ExecutiveTemplate.tsx
-│   │   ├── MinimalTemplate.tsx
-│   │   ├── ModernTemplate.tsx
-│   │   └── TemplateHelpers.tsx
-│   │
-│   ├── ui/                 # Reusable primitive components
-│   │   ├── Badge.tsx
-│   │   ├── Button.tsx          # CVA variants: primary/secondary/ghost/danger/accent
-│   │   ├── ConfirmDialog.tsx   # Accessible modal with focus trap
-│   │   ├── Divider.tsx
-│   │   ├── EmptyState.tsx
-│   │   ├── Input.tsx           # Input + Textarea with label/error
-│   │   ├── ProgressRing.tsx    # SVG animated circular progress
-│   │   ├── Skeleton.tsx        # Shimmer loading placeholders
-│   │   └── Tooltip.tsx
-│   │
-│   └── shared/             # Cross-cutting components
-│       ├── AutosaveBadge.tsx
-│       ├── FormField.tsx
-│       ├── LoadingOverlay.tsx
-│       ├── RepeaterItem.tsx
-│       ├── StorageInfo.tsx
-│       └── Toast.tsx
+├── components/                    # ~50 React components
+│   ├── layout/                    # App shell (Providers, Topbar, etc.)
+│   ├── editor/                    # Left panel input components
+│   ├── preview/                   # Right panel live preview
+│   ├── templates/                 # 10 resume template components
+│   ├── ui/                        # Reusable primitive components
+│   ├── shared/                    # Cross-cutting components
+│   ├── auth/                      # Login/Register/Profile forms
+│   ├── builder/                   # Builder orchestrator
+│   ├── dashboard/                 # Dashboard components
+│   ├── billing/                   # Billing page client
+│   └── analytics/                 # Admin & user dashboards
 │
-├── hooks/                  # Custom React hooks
-│   ├── useAtsScore.ts          # Memoized ATS result
-│   ├── useAutoSave.ts          # Debounced save scheduler
-│   ├── useClipboard.ts         # Clipboard write with feedback state
-│   ├── useDebounce.ts          # Value debounce + debounced callback
-│   ├── useKeyboardShortcuts.ts # Ctrl+Z / Ctrl+Y
-│   ├── useLocalStorage.ts      # SSR-safe cross-tab typed localStorage
-│   ├── usePdfExport.ts         # (legacy) delegates to lib/pdf
-│   ├── usePreviewScale.ts      # Reactive A4 scale factor
-│   ├── useResizeObserver.ts    # ResizeObserver wrapper
-│   ├── useResetResume.ts       # Two-step reset with confirmation
-│   ├── useResumeExport.ts      # Unified PDF + print
-│   └── useTheme.ts             # Theme toggle abstraction
+├── hooks/                         # 18+ custom React hooks
+│   ├── useAtsScore.ts
+│   ├── useAutoSave.ts
+│   ├── useClipboard.ts
+│   ├── useCloudSync.ts
+│   ├── useDebounce.ts
+│   ├── useExportExtended.ts
+│   ├── useKeyboardShortcuts.ts
+│   ├── useLocalStorage.ts
+│   ├── usePdfExport.ts
+│   ├── usePlan.ts
+│   ├── usePreviewScale.ts
+│   ├── useResizeObserver.ts
+│   ├── useResetResume.ts
+│   ├── useResumeExport.ts
+│   ├── useResumeLimit.ts
+│   ├── useTheme.ts
+│   ├── useAiGenerate.ts
+│   └── useAiUsage.ts
 │
-├── lib/                    # Pure domain logic (no React)
-│   ├── ats.ts                  # ATS score calculation
-│   ├── compress-image.ts       # Canvas image compression
-│   ├── constants.ts            # Templates, fonts, colours, defaults
-│   ├── cover-letter.ts         # Cover letter body generator
-│   ├── pdf.ts                  # Multi-page A4 PDF export
-│   ├── schemas.ts              # Zod validation schemas
-│   ├── storage.ts              # Versioned localStorage abstraction
-│   └── text-export.ts          # Plain-text + clipboard export
+├── lib/                           # Pure domain logic (no React)
+│   ├── ats.ts                     # ATS score calculation
+│   ├── auth.ts                    # NextAuth config (server-only)
+│   ├── auth.config.ts             # Edge-safe auth config
+│   ├── claude.ts                  # Anthropic Claude client singleton
+│   ├── stripes.ts                 # Stripe client + plan config
+│   ├── db.ts                      # Prisma client singleton
+│   ├── analytics.ts               # Server-side analytics helpers
+│   ├── posthog.ts                 # PostHog analytics integration
+│   ├── email.ts                   # Resend email templates
+│   ├── ai-usage.ts                # AI quota tracking
+│   ├── ai-prompts.ts              # Claude prompt templates
+│   ├── resume-sync.ts             # DB sync helpers
+│   ├── schemas.ts                 # Zod validation schemas
+│   ├── storage.ts                 # Versioned localStorage abstraction
+│   ├── constants.ts               # Templates, fonts, colors, defaults
+│   ├── pdf.ts                     # Multi-page A4 PDF export
+│   ├── docx-export.ts             # Word export
+│   ├── text-export.ts             # Plain-text export
+│   ├── compress-image.ts          # Canvas image compression
+│   ├── qrcode.ts                  # QR code generation
+│   └── cover-letter.ts            # Cover letter generation
 │
 ├── store/
-│   ├── resume-store.ts     # All resume data, CRUD, 50-step undo/redo
-│   ├── ui-store.ts         # Theme, toasts, view, export progress
-│   └── index.ts
+│   ├── resume-store.ts            # All resume data, CRUD, undo/redo (Zustand + Immer)
+│   ├── ui-store.ts                # Theme, toasts, view, export progress
+│   └── index.ts                   # Barrel exports
 │
 ├── types/
-│   └── index.ts            # All TypeScript interfaces
+│   ├── index.ts                   # All TypeScript interfaces
+│   └── next-auth.d.ts             # NextAuth session/jwt type augmentation
 │
-├── utils/
-│   └── index.ts            # cn(), generateId(), sleep(), arrayMove()
+├── __mocks__/
+│   └── prisma.ts                  # Prisma mock (for testing)
 │
-└── env.ts                  # Typed environment config
+└── utils/
+    └── index.ts                   # cn(), generateId(), generateSlug(), arrayMove(), etc.
 ```
 
 ---
 
-## Architecture Decisions
+## Architecture
 
 ### State Management
 
 Two Zustand stores keep concerns separated:
 
-- **`resume-store`** — all resume content + history stack (persisted via `lib/storage`)
+- **`resume-store`** — all resume content + 50-step undo/redo history stack (persisted to localStorage)
 - **`ui-store`** — ephemeral UI state: theme, toasts, section open/close, export progress
 
-Both use Immer for safe mutations. The resume store maintains a 50-entry undo/redo stack using JSON serialisation snapshots with 600 ms debounce on text inputs.
+Both use Immer for safe, immutable mutations. The resume store maintains a 50-entry history using JSON snapshots with 600ms debounce on text inputs.
+
+### Authentication
+
+NextAuth.js v5 with JWT sessions. Three providers:
+- Google OAuth
+- GitHub OAuth
+- Credentials (email + bcrypt-hashed password)
+
+Middleware (`src/middleware.ts`) runs in the Edge runtime for route protection. A separate `auth.config.ts` avoids importing Prisma/bcrypt in the Edge runtime.
+
+### Database
+
+Prisma ORM with PostgreSQL. Models include `User`, `Account`, `Session`, `Resume`, `AiUsage`, `AtsScoreHistory`, `ResumeView`, and `VerificationToken`.
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+### Billing
+
+Stripe Checkout sessions for Pro subscriptions ($9/month). Webhooks (signed) handle subscription lifecycle events:
+- `checkout.session.completed` → upgrade to Pro
+- `customer.subscription.updated` → update plan/expiry
+- `customer.subscription.deleted` → downgrade to Free
+- `invoice.payment_failed` → log for follow-up
+
+### AI Features
+
+Claude API (`claude-sonnet-4-6`) powers four features:
+- Professional summary generation
+- Achievement bullet rewriting
+- Cover letter drafting
+- ATS keyword gap analysis
+
+Free plan: 5 AI calls per 24h rolling window. Pro: unlimited.
 
 ### Template CSS Strategy
 
-Template classes (`.tpl-classic`, `.r-header`, etc.) live in `globals.css` as plain CSS, **not Tailwind utilities**. This is intentional:
-
-1. They must survive Tailwind's purge pass
-2. They need to render identically in both the live preview and the html2canvas PDF snapshot
-3. CSS variables (`--resume-accent`, `--resume-font`) are updated imperatively via `document.documentElement.style.setProperty` when the user changes theme/font — no React re-render needed
+Template classes (`.tpl-classic`, `.r-header`, etc.) live in `globals.css` as plain CSS, not Tailwind utilities. This ensures identical rendering between live preview and html2canvas PDF snapshots.
 
 ### PDF Export
 
-`lib/pdf.ts` dynamically imports `html2canvas` and `jsPDF` — these two libraries together are ~250 KB and are **never included in the initial bundle**. They are loaded on-demand when the user first clicks Export.
-
-Multi-page export works by:
-1. Forcing the preview element to its natural 794 px CSS width
-2. Calculating `pageHeightPx = 794 * (297/210)` (A4 aspect ratio)
-3. Rendering each page slice with `html2canvas` at `scale: 2` (retina)
-4. Stitching pages into a single PDF with `jsPDF`
+`lib/pdf.ts` dynamically imports `html2canvas` and `jsPDF` — together ~250KB, never in the initial bundle. Multi-page export renders each A4 page at retina scale and stitches them into a single PDF.
 
 ### Storage Versioning
 
-`lib/storage.ts` wraps every localStorage entry in `{ v: 2, ts: Date.now(), data: T }`. If the schema version doesn't match on read, the entry is silently discarded and the app falls back to `DEFAULT_RESUME_STATE`. This prevents crashes when the data shape changes between app versions.
+`lib/storage.ts` wraps every localStorage entry in `{ v: 2, ts: Date.now(), data: T }`. Version mismatches on read silently discard stale data and fall back to defaults.
 
 ---
 
-## Adding a New Template
+## Development
 
-1. Create `src/components/templates/MyTemplate.tsx` — export a `memo()`-wrapped component reading from `useResumeStore`
-2. Add `mytemplate` to the `TemplateId` union in `src/types/index.ts`
-3. Add it to `TEMPLATES` in `src/lib/constants.ts`
-4. Add it to `TEMPLATE_MAP` in `src/components/preview/ResumePreview.tsx`
-5. Add a thumbnail SVG to `THUMBNAILS` in `src/components/editor/TemplatePicker.tsx`
-6. Add `.tpl-mytemplate` CSS rules to `src/app/globals.css`
+### Setup
 
----
+```bash
+npm install
+cp .env.local.example .env.local
+npx prisma migrate dev --name init
+npm run dev
+```
 
-## Adding a New Section
+### Environment Setup Guides
 
-1. Create `src/components/editor/sections/MySection.tsx`
-2. Add the section key to `SectionKey` in `src/types/index.ts`
-3. Add metadata to `SECTION_META` in `src/lib/constants.ts`
-4. Add initial state to `DEFAULT_RESUME_STATE` in `src/lib/constants.ts`
-5. Add store actions to `resume-store.ts`
-6. Register in `SECTION_COMPONENTS` map in `EditorPanel.tsx`
-7. Export from `src/components/editor/sections/index.ts`
+- [Stripe Setup](./docs/stripe-setup.md) — full walkthrough for wiring up billing and webhooks
+
+### Type Checking & Linting
+
+```bash
+npm run type-check   # tsc --noEmit
+npm run lint          # ESLint with Next.js rules
+```
 
 ---
 
@@ -249,7 +372,7 @@ Multi-page export works by:
 npx vercel --prod
 ```
 
-No additional configuration needed — the app is fully static (SSG) since it uses `ssr: false` dynamic imports and `localStorage` for all persistence.
+No additional configuration needed.
 
 ### Docker
 
@@ -269,12 +392,20 @@ CMD ["node", "server.js"]
 ```
 
 Enable standalone output in `next.config.ts`:
+
 ```ts
 output: 'standalone'
 ```
 
 ---
 
+
+## Author
+
+**[Joinvnexus](https://github.com/joinvnexus)** — maintainer of Resumify.
+
 ## License
 
-MIT © ResumeForge Contributors
+Copyright © 2026 [Joinvnexus](https://github.com/joinvnexus).
+
+Licensed under the MIT License. See [LICENSE](./LICENSE) for details.

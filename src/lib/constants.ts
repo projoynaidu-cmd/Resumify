@@ -202,9 +202,10 @@ export const DEFAULT_RESUME_STATE: ResumeState = {
   sectionOrder: DEFAULT_SECTION_ORDER,
 }
 
-export const LOCAL_STORAGE_KEY = 'resumeforge_v2'
-export const PALETTE_STORAGE_KEY = 'resumeforge_palettes'
+export const LOCAL_STORAGE_KEY = 'Resumify_v2'
+export const PALETTE_STORAGE_KEY = 'Resumify_palettes'
 
 export const SKILL_LEVEL_PERCENTAGES = [95, 88, 82, 75, 70, 65, 60, 55]
 
 export const MAX_CUSTOM_PALETTES = 8
+

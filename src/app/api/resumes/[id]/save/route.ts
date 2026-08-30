@@ -25,7 +25,7 @@ export async function POST(req: Request, { params }: Params) {
 
   const { id } = await params
 
-  let body: { data?: ResumeState; title?: string }
+  let body: { data?: Partial<ResumeState>; title?: string }
   try {
     body = await req.json()
   } catch {

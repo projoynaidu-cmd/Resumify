@@ -1,4 +1,4 @@
-# ResumeForge v2 — Next.js Migration Notes
+# Resumify v2 — Next.js Migration Notes
 
 ## Overview
 
@@ -220,3 +220,4 @@ const dmSans = DM_Sans({ subsets: ['latin'], weight: ['300','400','500','600'], 
 ```
 
 Then add `className={`${dmSans.variable} ...`}` to `<body>`. This gives you font subsetting, preloading, and zero layout shift.
+

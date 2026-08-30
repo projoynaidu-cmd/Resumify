@@ -11,7 +11,7 @@ interface ErrorPageProps {
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   useEffect(() => {
     // Log to your error-reporting service here
-    console.error('[ResumeForge] Unhandled error:', error)
+    console.error('[Resumify] Unhandled error:', error)
   }, [error])
 
   return (
@@ -47,3 +47,4 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
     </div>
   )
 }
+

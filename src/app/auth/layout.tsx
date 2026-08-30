@@ -3,7 +3,7 @@ import { FileText } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Sign in — ResumeForge',
+  title: 'Sign in — Resumify',
 }
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <span className="bg-[var(--accent)] text-white w-[28px] h-[28px] rounded-[7px] grid place-items-center">
             <FileText size={13} aria-hidden />
           </span>
-          <span className="font-serif font-bold text-[1.1rem]">ResumeForge</span>
+          <span className="font-serif font-bold text-[1.1rem]">Resumify</span>
         </Link>
       </header>
 
@@ -28,8 +28,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </main>
 
       <footer className="py-4 text-center text-[0.75rem] text-[var(--text3)]">
-        © {new Date().getFullYear()} ResumeForge. All rights reserved.
+        © {new Date().getFullYear()} Resumify. All rights reserved.
       </footer>
     </div>
   )
 }
+

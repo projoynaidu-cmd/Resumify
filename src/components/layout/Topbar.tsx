@@ -52,14 +52,14 @@ export function Topbar() {
         <a
           href="/"
           className="flex items-center gap-2 flex-shrink-0 text-[var(--accent)] no-underline"
-          aria-label="ResumeForge home"
+          aria-label="Resumify home"
         >
           <span className="bg-[var(--accent)] text-white w-[30px] h-[30px] rounded-[7px] grid place-items-center flex-shrink-0">
             <FileText size={14} aria-hidden />
           </span>
           {/* Hide wordmark on very small screens */}
           <span className="hidden sm:inline font-serif font-bold text-[1.15rem]">
-            ResumeForge{' '}
+            Resumify{' '}
             <span className="bg-[var(--accent)] text-white text-[0.6rem] font-bold px-1 py-px rounded align-middle ml-0.5">
               v2
             </span>
@@ -263,3 +263,4 @@ function MobileMenuItem({
     </button>
   )
 }
+

@@ -39,7 +39,7 @@ export async function getResumeById(
 
   return {
     ...resume,
-    data: (resume.data as ResumeState) ?? DEFAULT_RESUME_STATE,
+    data: (resume.data as unknown as ResumeState) ?? DEFAULT_RESUME_STATE,
   }
 }
 
@@ -52,7 +52,7 @@ export async function getResumeBySlug(slug: string): Promise<DbResume | null> {
   if (!resume || !resume.isPublic) return null
   return {
     ...resume,
-    data: (resume.data as ResumeState) ?? DEFAULT_RESUME_STATE,
+    data: (resume.data as unknown as ResumeState) ?? DEFAULT_RESUME_STATE,
   }
 }
 
@@ -79,27 +79,35 @@ export async function listResumesForUser(userId: string) {
 /**
  * Persist resume state to the database.
  * Also updates the title from personal.fname + personal.lname if provided.
+ *
+ * Accepts partial data — any fields omitted from `data` are merged from
+ * the existing stored value, so clients can send only changed fields
+ * (e.g. to avoid re-uploading unchanged base64 photo data).
  */
 export async function saveResumeData(
   id: string,
   userId: string,
-  data: ResumeState,
+  data: Partial<ResumeState>,
   titleOverride?: string,
 ): Promise<{ id: string; updatedAt: Date } | null> {
   const resume = await db.resume.findUnique({
     where: { id },
-    select: { userId: true },
+    select: { userId: true, data: true },
   })
   if (!resume || resume.userId !== userId) return null
+
+  // Merge incoming partial data with existing stored state
+  const existingData = (resume.data as unknown as ResumeState) ?? DEFAULT_RESUME_STATE
+  const mergedData = { ...existingData, ...data }
 
   // Auto-derive title from name fields when no override given
   const autoTitle =
     titleOverride ??
-    ([data.personal?.fname, data.personal?.lname].filter(Boolean).join(' ') || 'Untitled Resume')
+    ([mergedData.personal?.fname, mergedData.personal?.lname].filter(Boolean).join(' ') || 'Untitled Resume')
 
   const updated = await db.resume.update({
     where: { id },
-    data: { data: data as object, title: autoTitle },
+    data: { data: mergedData as object, title: autoTitle },
     select: { id: true, updatedAt: true },
   })
 

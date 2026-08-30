@@ -38,7 +38,7 @@ export function DashboardSidebar({ user }: SidebarProps) {
           <span className="bg-[var(--accent)] text-white w-7 h-7 rounded-[6px] grid place-items-center">
             <FileText size={13} aria-hidden />
           </span>
-          <span className="font-serif font-bold text-[1.05rem]">ResumeForge</span>
+          <span className="font-serif font-bold text-[1.05rem]">Resumify</span>
         </Link>
       </div>
 
@@ -107,3 +107,4 @@ export function DashboardSidebar({ user }: SidebarProps) {
     </aside>
   )
 }
+

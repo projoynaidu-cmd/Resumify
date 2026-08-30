@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { ProfileForm } from '@/components/auth/ProfileForm'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Profile — ResumeForge' }
+export const metadata: Metadata = { title: 'Profile — Resumify' }
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -21,3 +21,4 @@ export default async function ProfilePage() {
     </div>
   )
 }
+

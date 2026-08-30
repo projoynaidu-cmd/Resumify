@@ -52,7 +52,7 @@ export function LoginForm() {
       {/* Heading */}
       <div className="mb-7 text-center">
         <h1 className="font-serif text-2xl font-bold text-[var(--text)] mb-1">Welcome back</h1>
-        <p className="text-sm text-[var(--text3)]">Sign in to your ResumeForge account</p>
+        <p className="text-sm text-[var(--text3)]">Sign in to your Resumify account</p>
       </div>
 
       {/* OAuth buttons */}
@@ -186,3 +186,4 @@ function OAuthButton({
     </button>
   )
 }
+

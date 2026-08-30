@@ -3,12 +3,12 @@ import './globals.css'
 import { Providers } from '@/components/layout/Providers'
 
 export const metadata: Metadata = {
-  title: 'ResumeForge — Professional Resume Builder',
+  title: 'Resumify — Professional Resume Builder',
   description:
     'Build professional, ATS-optimized resumes with multiple templates, live preview, and one-click PDF export.',
   keywords: ['resume builder', 'CV maker', 'ATS resume', 'professional resume'],
   openGraph: {
-    title: 'ResumeForge',
+    title: 'Resumify',
     description: 'Build beautiful, ATS-optimized resumes in minutes.',
     type: 'website',
   },
@@ -35,3 +35,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   )
 }
+

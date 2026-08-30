@@ -78,7 +78,7 @@ export function useExportExtended() {
         const message =
           err instanceof ResumeImportError
             ? err.message
-            : 'Import failed. Is this a valid ResumeForge backup file?'
+            : 'Import failed. Is this a valid Resumify backup file?'
         addToast('error', message)
         return false
       }
@@ -88,3 +88,4 @@ export function useExportExtended() {
 
   return { exportDocx, exportJson, importJson, isDocxExporting, isJsonExporting }
 }
+

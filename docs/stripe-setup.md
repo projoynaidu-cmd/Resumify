@@ -1,13 +1,13 @@
 # Stripe Setup Guide
 
-Follow these steps to wire up billing for ResumeForge.
+Follow these steps to wire up billing for Resumify.
 
 ## 1. Create a Stripe account
 https://dashboard.stripe.com/register — use **Test mode** while developing.
 
 ## 2. Create the Pro product + price
 1. Dashboard → **Product catalog** → **Add product**
-2. Name: `ResumeForge Pro`
+2. Name: `Resumify Pro`
 3. Pricing model: **Recurring**, **Monthly**, **$9.00 USD**
 4. Save — copy the generated **Price ID** (`price_xxxxxxxxxxxx`)
 5. Paste it into `.env.local` as `STRIPE_PRO_PRICE_ID`
@@ -64,3 +64,4 @@ Dashboard → **Settings** → **Billing** → **Customer portal**
 2. Repeat steps 2–6 with live keys (they're separate from test keys)
 3. Update production env vars
 4. Re-test the full checkout flow with a real card (refund yourself after)
+

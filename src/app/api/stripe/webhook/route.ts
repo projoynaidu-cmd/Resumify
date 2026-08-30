@@ -76,8 +76,10 @@ export async function POST(req: Request) {
     }
   } catch (err) {
     console.error(`[Webhook] Handler error for ${event.type}:`, err)
-    // Return 200 so Stripe doesn't retry — log the error for investigation
-    return NextResponse.json({ error: 'Handler failed', received: true }, { status: 200 })
+    // Return 500 for infrastructure errors so Stripe retries with
+    // exponential backoff (up to 3 days). Only swallow truly
+    // non-recoverable errors that don't need retry.
+    return NextResponse.json({ error: 'Handler failed' }, { status: 500 })
   }
 
   return NextResponse.json({ received: true })

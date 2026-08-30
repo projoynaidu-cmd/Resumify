@@ -26,6 +26,7 @@ export function useCloudSync({ resumeId, delay = 1500 }: UseCloudSyncOptions) {
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const isSavingRef = useRef(false)
+  const lastSavedPhotoRef = useRef<string | null>(null)
 
   // Subscribe to the full resume state snapshot (JSON for comparison)
   const stateJson = useResumeStore((s) =>
@@ -62,6 +63,12 @@ export function useCloudSync({ resumeId, delay = 1500 }: UseCloudSyncOptions) {
 
     try {
       const state = getFullState()
+
+      // If photoDataUrl hasn't changed since the last successful save,
+      // omit it from the payload to avoid re-uploading a large base64 string.
+      const photoChanged = state.photoDataUrl !== lastSavedPhotoRef.current
+      lastSavedPhotoRef.current = state.photoDataUrl
+
       const res = await fetch(`/api/resumes/${resumeId}/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -82,8 +89,9 @@ export function useCloudSync({ resumeId, delay = 1500 }: UseCloudSyncOptions) {
             fontPairingId: state.fontPairingId,
             customPalette: state.customPalette,
             filename: state.filename,
-            photoDataUrl: state.photoDataUrl,
             sectionOrder: state.sectionOrder,
+            // Only include photo if it changed since last save
+            ...(photoChanged ? { photoDataUrl: state.photoDataUrl } : {}),
           },
         }),
       })

@@ -4,7 +4,7 @@ import { getUserResumeAnalytics } from '@/lib/analytics'
 import { AnalyticsDashboard } from '@/components/analytics/AnalyticsDashboard'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = { title: 'Analytics — ResumeForge' }
+export const metadata: Metadata = { title: 'Analytics — Resumify' }
 
 export default async function AnalyticsPage() {
   const session = await auth()
@@ -14,3 +14,4 @@ export default async function AnalyticsPage() {
 
   return <AnalyticsDashboard data={analytics} />
 }
+

@@ -169,7 +169,7 @@ export async function exportToDocx(state: ResumeState): Promise<void> {
   ]
 
   const doc = new Document({
-    creator: 'ResumeForge',
+    creator: 'Resumify',
     title: name,
     description: `Resume for ${name}`,
     sections: [
@@ -203,3 +203,4 @@ export async function exportToDocx(state: ResumeState): Promise<void> {
   a.click()
   URL.revokeObjectURL(url)
 }
+
