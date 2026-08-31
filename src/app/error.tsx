@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { AlertTriangle, RefreshCcw } from 'lucide-react'
+import Link from 'next/link'
 
 interface ErrorPageProps {
   error: Error & { digest?: string }
@@ -37,12 +38,12 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
         >
           <RefreshCcw size={14} aria-hidden /> Try again
         </button>
-        <a
+        <Link
           href="/"
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius-sm)] bg-[var(--surface)] text-[var(--text2)] text-sm font-medium border border-[var(--border)] hover:bg-[var(--surface2)] transition-colors duration-200"
         >
           Reload app
-        </a>
+        </Link>
       </div>
     </div>
   )

@@ -33,7 +33,7 @@ export const TechnicalTemplate = memo(function TechnicalTemplate() {
             <div className="r-name">
               <span className="r-prompt">$</span> {name}
             </div>
-            <div className="r-title">// {p.title}</div>
+            <div className="r-title">{'// '}{p.title}</div>
             <div className="r-contact-row">
               {p.email && <span className="r-contact-item">{p.email}</span>}
               {p.phone && <span className="r-contact-item">{p.phone}</span>}
@@ -47,14 +47,14 @@ export const TechnicalTemplate = memo(function TechnicalTemplate() {
       <div className="r-body">
         {s.about && (
           <div className="r-section">
-            <div className="r-section-title">/* about */</div>
+            <div className="r-section-title">{'/* about */'}</div>
             <div className="r-about">{s.about}</div>
           </div>
         )}
 
         {s.skills.length > 0 && (
           <div className="r-section">
-            <div className="r-section-title">/* stack */</div>
+            <div className="r-section-title">{'/* stack */'}</div>
             <div className="r-tags">
               {s.skills.map((skill) => (
                 <span key={skill} className="r-tag">{skill}</span>
@@ -65,7 +65,7 @@ export const TechnicalTemplate = memo(function TechnicalTemplate() {
 
         {s.experience.length > 0 && (
           <div className="r-section">
-            <div className="r-section-title">/* experience */</div>
+            <div className="r-section-title">{'/* experience */'}</div>
             {s.experience.map((exp) => (
               <div key={exp.id} className="r-entry">
                 <div className="r-entry-header">
@@ -81,7 +81,7 @@ export const TechnicalTemplate = memo(function TechnicalTemplate() {
 
         {s.projects.length > 0 && (
           <div className="r-section">
-            <div className="r-section-title">/* projects */</div>
+            <div className="r-section-title">{'/* projects */'}</div>
             {s.projects.map((proj) => (
               <div key={proj.id} className="r-entry">
                 <div className="r-entry-header">
@@ -97,7 +97,7 @@ export const TechnicalTemplate = memo(function TechnicalTemplate() {
 
         {s.education.length > 0 && (
           <div className="r-section">
-            <div className="r-section-title">/* education */</div>
+            <div className="r-section-title">{'/* education */'}</div>
             {s.education.map((edu) => (
               <div key={edu.id} className="r-entry">
                 <div className="r-entry-header">

@@ -217,7 +217,7 @@ export interface Toast {
 // FORM VALIDATION SCHEMAS (Zod types exported for use)
 // ============================================================
 
-export interface PersonalFormValues extends PersonalInfo {}
+export type PersonalFormValues = PersonalInfo
 
 export interface ExperienceFormValues {
   title: string
@@ -240,4 +240,4 @@ export interface ProjectFormValues {
   desc: string
 }
 
-export interface CoverLetterFormValues extends CoverLetter {}
+export type CoverLetterFormValues = CoverLetter

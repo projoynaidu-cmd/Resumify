@@ -113,7 +113,7 @@ export default function PrivacyPage() {
           no method of transmission over the internet is 100% secure.
         </p>
 
-        <h2>9. Children's Privacy</h2>
+        <h2>9. Children&apos;s Privacy</h2>
         <p>
           The Service is not intended for children under 13. We do not knowingly
           collect data from children under 13.

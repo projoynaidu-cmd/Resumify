@@ -5,6 +5,7 @@ import {
   Moon, Sun, Printer, Download, Undo2, Redo2,
   FileText, RotateCcw, ClipboardCopy, Menu, X,
 } from 'lucide-react'
+import Link from 'next/link'
 import { useUIStore, useResumeStore } from '@/store'
 import { useResumeExport } from '@/hooks/useResumeExport'
 import { useTheme } from '@/hooks/useTheme'
@@ -49,7 +50,7 @@ export function Topbar() {
         )}
       >
         {/* ── Logo ── */}
-        <a
+        <Link
           href="/"
           className="flex items-center gap-2 flex-shrink-0 text-[var(--accent)] no-underline"
           aria-label="Resumify home"
@@ -64,7 +65,7 @@ export function Topbar() {
               v2
             </span>
           </span>
-        </a>
+        </Link>
 
         <div className="hidden sm:block w-px h-[26px] bg-[var(--border)]" aria-hidden />
 

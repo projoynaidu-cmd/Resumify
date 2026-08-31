@@ -18,12 +18,6 @@ export function LoginForm() {
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard'
   const { data: session, status } = useSession()
 
-  if (status === 'loading') return null
-  if (session) {
-    router.push(callbackUrl)
-    return null
-  }
-
   const [showPassword, setShowPassword] = useState(false)
   const [oauthLoading, setOauthLoading] = useState<'google' | 'github' | null>(null)
   const [serverError, setServerError] = useState('')
@@ -33,6 +27,12 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) })
+
+  if (status === 'loading') return null
+  if (session) {
+    router.push(callbackUrl)
+    return null
+  }
 
   async function onSubmit(values: LoginSchema) {
     setServerError('')

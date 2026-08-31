@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useResumeStore } from '@/store'
 import { useCloudSync } from '@/hooks/useCloudSync'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
@@ -9,7 +9,6 @@ import { EditorPanel } from '@/components/editor/EditorPanel'
 import { PreviewPanel } from '@/components/preview/PreviewPanel'
 import { LoadingOverlay } from '@/components/shared/LoadingOverlay'
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav'
-import { useState } from 'react'
 import type { ResumeState } from '@/types'
 
 interface BuilderClientProps {

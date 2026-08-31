@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Eye, EyeOff, Loader2, CheckCircle2 } from 'lucide-react'
 import { registerSchema, type RegisterSchema } from '@/lib/schemas'
@@ -12,7 +11,6 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 
 export function RegisterForm() {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState('')
   const [success, setSuccess] = useState(false)
