@@ -10,7 +10,12 @@ const PROTECTED = ['/dashboard', '/builder', '/profile', '/settings', '/billing'
 const AUTH_ONLY = ['/auth/login', '/auth/register']
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET })
+  // In production (HTTPS/Vercel), Auth.js uses __Secure- prefixed cookies.
+  // Without secureCookie: true, getToken looks for the non-secure cookie name
+  // and fails to find the session, causing a redirect loop after OAuth login.
+  const secureCookie = req.nextUrl.protocol === 'https:' || req.headers.get('x-forwarded-proto') === 'https'
+
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET, secureCookie })
   const isLoggedIn = !!token
   const { pathname } = req.nextUrl
 
