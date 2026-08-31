@@ -3,7 +3,7 @@
 > A production-ready, open-source SaaS resume builder built with **Next.js 15**, **TypeScript**, **Prisma**, **Stripe**, **Zustand**, **Tailwind CSS**, and **Anthropic Claude AI**.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
-![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-blue?logo=typescript)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
@@ -118,12 +118,13 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Required Environment Variables
 
-These variables must be set in `.env.local` for the app to run locally:
+These variables must be set in `.env.local` for the app to run:
 
 | Variable | Description | How to get |
 |---|---|---|
-| `DATABASE_URL` | PostgreSQL connection string | Local PostgreSQL or Supabase |
+| `DATABASE_URL` | PostgreSQL connection string | Neon, Supabase, or self-hosted |
 | `AUTH_SECRET` | NextAuth session signing secret | `openssl rand -base64 32` |
+| `AUTH_URL` | Production base URL for NextAuth | Your live domain |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google OAuth credentials | [Google Cloud Console](https://console.developers.google.com) |
 | `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub OAuth credentials | [GitHub Developers](https://github.com/settings/developers) |
 | `ANTHROPIC_API_KEY` | Claude API key for AI features | [Anthropic Console](https://console.anthropic.com/settings/keys) |

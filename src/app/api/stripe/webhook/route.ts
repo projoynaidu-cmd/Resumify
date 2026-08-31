@@ -42,8 +42,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
-  console.log(`[Webhook] ${event.type}`)
-
   try {
     switch (event.type) {
       case 'checkout.session.completed': {
@@ -112,8 +110,6 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
     },
   })
-
-  console.log(`[Webhook] Activated Pro for user ${userId}`)
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
@@ -134,10 +130,6 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
       stripeSubscriptionId: subscription.id,
     },
   })
-
-  console.log(
-    `[Webhook] Subscription updated for user ${userId}: ${subscription.status}`,
-  )
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
@@ -152,8 +144,6 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       stripeSubscriptionId: null,
     },
   })
-
-  console.log(`[Webhook] Subscription cancelled for user ${userId}`)
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
