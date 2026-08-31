@@ -7,6 +7,7 @@ import { db } from '@/lib/db'
 import { registerSchema } from '@/lib/schemas'
 import { generateSlug } from '@/utils'
 import { authRateLimiter, getClientIp } from '@/lib/rate-limit'
+import { sendWelcomeEmail } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -68,6 +69,11 @@ export async function POST(req: Request) {
         data: {},
       },
     })
+
+    // Send welcome email (non-blocking — don't fail registration if email fails)
+    sendWelcomeEmail(user.email, user.name ?? '').catch((err) =>
+      console.error('[Register] Email send failed:', err),
+    )
 
     return NextResponse.json(
       { message: 'Account created successfully', userId: user.id },

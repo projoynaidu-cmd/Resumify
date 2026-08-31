@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
 import { getStripe } from '@/lib/stripe'
 import { db } from '@/lib/db'
+import { sendPaymentReceiptEmail, sendCancellationEmail } from '@/lib/email'
 
 /**
  * POST /api/stripe/webhook
@@ -110,6 +111,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: subscriptionId,
     },
   })
+
+  // Send payment receipt email (non-blocking)
+  const user = await db.user.findUnique({ where: { id: userId }, select: { email: true, name: true } })
+  if (user?.email) {
+    sendPaymentReceiptEmail(user.email, user.name ?? '', 900, currentPeriodEnd).catch((err) =>
+      console.error('[Webhook] Payment receipt email failed:', err),
+    )
+  }
 }
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
@@ -144,6 +153,15 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
       stripeSubscriptionId: null,
     },
   })
+
+  // Send cancellation email (non-blocking)
+  const user = await db.user.findUnique({ where: { id: userId }, select: { email: true, name: true } })
+  if (user?.email) {
+    const accessUntil = new Date()
+    sendCancellationEmail(user.email, user.name ?? '', accessUntil).catch((err) =>
+      console.error('[Webhook] Cancellation email failed:', err),
+    )
+  }
 }
 
 async function handlePaymentFailed(invoice: Stripe.Invoice) {
